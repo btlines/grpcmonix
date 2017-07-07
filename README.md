@@ -8,10 +8,10 @@
 
 Use Monix's Tasks and Observables to implement your GRPC services instead of Java's StreamObservers.
 
-- Unary calls return a Task[T] for the response returned by the server
-- Server streaming calls return an Observable[T] for the elements returned by the server
-- Client streaming calls take an Observable[T] for the elements emitted by the client and return a Task[U] for the server response
-- Bidi streaming calls take an Observable[T] for the elements emitted by the client and return an Observable[U] for the elements returned by the server
+- Unary calls return a `Task[T]` for the response returned by the server
+- Server streaming calls return an `Observable[T]` for the elements returned by the server
+- Client streaming calls take an `Observable[T]` for the elements emitted by the client and return a `Task[U]` for the server response
+- Bidi streaming calls take an `Observable[T]` for the elements emitted by the client and return an `Observable[U]` for the elements returned by the server
 
 ## Installation
 
@@ -48,7 +48,7 @@ libraryDependencies += "beyondthelines" %% "grpcgatewayruntime" % "0.0.0"
 
 ### Usage
 
-You're now ready to implement your GRPC service using Monix's Tasks and Observable.
+You're now ready to implement your GRPC service using Monix's Tasks and Observables.
 
 To implement your service's business logic you simply extend the GRPC monix generated trait.
 
