@@ -10,6 +10,7 @@ import monix.reactive.Observable
 import monix.reactive.observables.ObservableLike.{Operator, Transformer}
 import monix.reactive.observers.Subscriber
 import monix.reactive.subjects.PublishSubject
+import org.reactivestreams.{Subscriber => SubscriberR}
 
 import scala.concurrent.Future
 
@@ -30,6 +31,13 @@ object GrpcMonix {
   }
 
   def monixSubscriberToGrpcObserver[T](subscriber: Subscriber[T]): StreamObserver[T] =
+    new StreamObserver[T] {
+      override def onError(t: Throwable): Unit = subscriber.onError(t)
+      override def onCompleted(): Unit = subscriber.onComplete()
+      override def onNext(value: T): Unit = subscriber.onNext(value)
+    }
+
+  def reactiveSubscriberToGrpcObserver[T](subscriber: SubscriberR[_ >: T]): StreamObserver[T] =
     new StreamObserver[T] {
       override def onError(t: Throwable): Unit = subscriber.onError(t)
       override def onCompleted(): Unit = subscriber.onComplete()
