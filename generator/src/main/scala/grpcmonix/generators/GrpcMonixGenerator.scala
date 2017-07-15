@@ -157,22 +157,21 @@ object GrpcMonixGenerator extends protocbridge.ProtocCodeGenerator with Descript
         printer
           .add(s"override ${serviceMethodSignature(method)} = ")
           .indent
-          .add("Observable.create(OverflowStrategy.Unbounded) {")
+          .add(s"Observable.fromReactivePublisher(new PublisherR[${method.scalaOut}] {")
           .indent
-          .add("subscriber =>")
+          .add(s"override def subscribe(subscriber: SubscriberR[_ >: ${method.scalaOut}]): Unit = {")
           .indent
-          .add("val observer = monixSubscriberToGrpcObserver(subscriber)")
           .add("ClientCalls.asyncServerStreamingCall(")
-          .indent
-          .add(s"channel.newCall(${method.descriptorName}, options),")
-          .add("request,")
-          .add("observer")
-          .outdent
+          .addIndented(
+            s"channel.newCall(${method.descriptorName}, options),",
+            "request,",
+            s"reactiveSubscriberToGrpcObserver[${method.scalaOut}](subscriber)"
+          )
           .add(")")
-          .add("Cancelable.empty")
-          .outdent
           .outdent
           .add("}")
+          .outdent
+          .add("})")
           .outdent
       case StreamType.Bidirectional =>
         printer
@@ -312,7 +311,8 @@ object GrpcMonixGenerator extends protocbridge.ProtocCodeGenerator with Descript
       .add("import _root_.io.grpc.stub.{ AbstractStub, ClientCalls, ServerCalls, StreamObserver }")
       .add("import _root_.monix.eval.Task")
       .add("import _root_.monix.execution.{ Cancelable, Scheduler }")
-      .add("import _root_.monix.reactive.{ Observable, OverflowStrategy }")
+      .add("import _root_.monix.reactive.Observable")
+      .add("import _root_.org.reactivestreams.{ Publisher => PublisherR, Subscriber => SubscriberR }")
       .newline
       .add(s"object $objectName {")
       .indent
