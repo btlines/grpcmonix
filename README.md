@@ -43,7 +43,7 @@ PB.targets in Compile := Seq(
 
 resolvers += Resolver.bintrayRepo("beyondthelines", "maven")
 
-libraryDependencies += "beyondthelines" %% "grpcgatewayruntime" % "0.0.1"
+libraryDependencies += "beyondthelines" %% "grpcmonixruntime" % "0.0.1"
 ```
 
 ### Usage
