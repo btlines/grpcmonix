@@ -25,7 +25,7 @@ resolvers += Resolver.bintrayRepo("beyondthelines", "maven")
 
 libraryDependencies ++= Seq(
   "com.trueaccord.scalapb" %% "compilerplugin" % "0.6.0-pre5",
-  "beyondthelines"         %% "grpcmonixgenerator" % "0.0.1"
+  "beyondthelines"         %% "grpcmonixgenerator" % "0.0.2"
 )
 ```
 
@@ -38,12 +38,12 @@ PB.targets in Compile := Seq(
   // compile your proto files into scala source files
   scalapb.gen() -> (sourceManaged in Compile).value,
   // generate the GRPCMonix source code
-  grpcmonix.generators.GrpcMonixGenerator -> (sourceManaged in Compile).value
+  grpcmonix.generators.GrpcMonixGenerator() -> (sourceManaged in Compile).value
 )
 
 resolvers += Resolver.bintrayRepo("beyondthelines", "maven")
 
-libraryDependencies += "beyondthelines" %% "grpcmonixruntime" % "0.0.1"
+libraryDependencies += "beyondthelines" %% "grpcmonixruntime" % "0.0.2"
 ```
 
 ### Usage

@@ -5,18 +5,25 @@ import com.google.protobuf.ExtensionRegistry
 import com.google.protobuf.compiler.PluginProtos.{CodeGeneratorRequest, CodeGeneratorResponse}
 import com.trueaccord.scalapb.Scalapb
 import com.trueaccord.scalapb.compiler.FunctionalPrinter.PrinterEndo
-import com.trueaccord.scalapb.compiler.{DescriptorPimps, FunctionalPrinter, StreamType}
+import com.trueaccord.scalapb.compiler.{DescriptorPimps, FunctionalPrinter, GeneratorParams, StreamType}
 
 import scala.collection.JavaConverters._
 
-object GrpcMonixGenerator extends protocbridge.ProtocCodeGenerator with DescriptorPimps {
+object GrpcMonixGenerator {
 
+  def apply(flatPackage: Boolean = false): GrpcMonixGenerator = {
+    val params = GeneratorParams().copy(flatPackage = flatPackage)
+    new GrpcMonixGenerator(params)
+  }
+}
+
+class GrpcMonixGenerator(override val params: GeneratorParams)
+  extends protocbridge.ProtocCodeGenerator
+  with DescriptorPimps {
   // Read scalapb.options (if present) in .proto files
   override def registerExtensions(registry: ExtensionRegistry): Unit = {
     Scalapb.registerAllExtensions(registry)
   }
-
-  val params = com.trueaccord.scalapb.compiler.GeneratorParams()
 
   def run(request: CodeGeneratorRequest): CodeGeneratorResponse = {
     val b = CodeGeneratorResponse.newBuilder
