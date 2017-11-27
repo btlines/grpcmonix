@@ -12,7 +12,7 @@ lazy val runtime = (project in file("runtime"))
     crossScalaVersions := Seq("2.12.4", "2.11.11"),
     name := "GrpcMonixRuntime",
     libraryDependencies ++= Seq(
-      "com.trueaccord.scalapb" %% "scalapb-runtime-grpc" % "0.6.6",
+      "com.trueaccord.scalapb" %% "scalapb-runtime-grpc" % "0.6.7",
       "io.monix"               %% "monix"                % "2.3.0"
     )
   )
@@ -22,7 +22,7 @@ lazy val generator = (project in file("generator"))
     crossScalaVersions := Seq("2.12.4", "2.10.6"),
     name := "GrpcMonixGenerator",
     libraryDependencies ++= Seq(
-      "com.trueaccord.scalapb" %% "compilerplugin" % "0.6.6",
-      "com.trueaccord.scalapb" %% "scalapb-runtime-grpc" % "0.6.6"
+      "com.trueaccord.scalapb" %% "compilerplugin" % "0.6.7",
+      "com.trueaccord.scalapb" %% "scalapb-runtime-grpc" % "0.6.7"
     )
   )

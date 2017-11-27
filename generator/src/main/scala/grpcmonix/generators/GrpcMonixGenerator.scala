@@ -7,7 +7,7 @@ import com.trueaccord.scalapb.compiler.FunctionalPrinter.PrinterEndo
 import com.trueaccord.scalapb.compiler.{DescriptorPimps, FunctionalPrinter, GeneratorParams, ProtobufGenerator, StreamType}
 
 import scala.collection.JavaConverters._
-import scalapbshade.v0_6_6.com.trueaccord.scalapb.Scalapb
+import scalapbshade.v0_6_7.com.trueaccord.scalapb.Scalapb
 
 
 object GrpcMonixGenerator {
