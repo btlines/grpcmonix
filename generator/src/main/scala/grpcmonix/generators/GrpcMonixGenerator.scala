@@ -3,14 +3,14 @@ package grpcmonix.generators
 import com.google.protobuf.Descriptors._
 import com.google.protobuf.ExtensionRegistry
 import com.google.protobuf.compiler.PluginProtos.{CodeGeneratorRequest, CodeGeneratorResponse}
-import com.trueaccord.scalapb.Scalapb
 import com.trueaccord.scalapb.compiler.FunctionalPrinter.PrinterEndo
-import com.trueaccord.scalapb.compiler.{DescriptorPimps, FunctionalPrinter, GeneratorParams, StreamType}
+import com.trueaccord.scalapb.compiler.{DescriptorPimps, FunctionalPrinter, GeneratorParams, ProtobufGenerator, StreamType}
 
 import scala.collection.JavaConverters._
+import scalapbshade.v0_6_7.com.trueaccord.scalapb.Scalapb
+
 
 object GrpcMonixGenerator {
-
   def apply(flatPackage: Boolean = false): GrpcMonixGenerator = {
     val params = GeneratorParams().copy(flatPackage = flatPackage)
     new GrpcMonixGenerator(params)
@@ -18,15 +18,13 @@ object GrpcMonixGenerator {
 }
 
 class GrpcMonixGenerator(override val params: GeneratorParams)
-  extends protocbridge.ProtocCodeGenerator
-  with DescriptorPimps {
-  // Read scalapb.options (if present) in .proto files
-  override def registerExtensions(registry: ExtensionRegistry): Unit = {
+  extends protocbridge.ProtocCodeGenerator with DescriptorPimps {
+  def run(requestBytes: Array[Byte]): Array[Byte] = {
+    // Read scalapb.options (if present) in .proto files
+    val registry = ExtensionRegistry.newInstance()
     Scalapb.registerAllExtensions(registry)
-  }
-
-  def run(request: CodeGeneratorRequest): CodeGeneratorResponse = {
     val b = CodeGeneratorResponse.newBuilder
+    val request = CodeGeneratorRequest.parseFrom(requestBytes, registry)
 
     val fileDescByName: Map[String, FileDescriptor] =
       request.getProtoFileList.asScala.foldLeft[Map[String, FileDescriptor]](Map.empty) {
@@ -41,7 +39,7 @@ class GrpcMonixGenerator(override val params: GeneratorParams)
         val responseFile = generateFile(fileDesc)
         b.addFile(responseFile)
     }
-    b.build
+    b.build.toByteArray
   }
 
   private[this] def grpcObserver(typeName: String) = s"StreamObserver[$typeName]"
