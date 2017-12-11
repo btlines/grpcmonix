@@ -61,16 +61,26 @@ class GrpcMonixGenerator(override val params: GeneratorParams)
     printer
       .add(s"val ${method.descriptorName}: MethodDescriptor[${method.scalaIn}, ${method.scalaOut}] =")
       .indent
-      .add("MethodDescriptor.create(")
-      .indent
-      .add(s"MethodDescriptor.MethodType.$methodType,")
-      .add(s"""MethodDescriptor.generateFullMethodName("${method.getService.getFullName}", "${method.getName}"),""")
-      .add(s"${marshaller(method.scalaIn)},")
-      .add(marshaller(method.scalaOut))
-      .outdent
-      .add(")")
+      .add("MethodDescriptor.newBuilder()")
+      .addIndented(
+        s".setType(MethodDescriptor.MethodType.$methodType)",
+        s""".setFullMethodName(MethodDescriptor.generateFullMethodName("${method.getService.getFullName}", "${method.getName}"))""",
+        s".setRequestMarshaller(new Marshaller(${method.scalaIn}))",
+        s".setResponseMarshaller(new Marshaller(${method.scalaOut}))",
+        ".build()"
+      )
       .outdent
   }
+
+  private[this] def serviceDescriptor(service: ServiceDescriptor): PrinterEndo =
+    _.add(s"""val SERVICE: _root_.io.grpc.ServiceDescriptor = _root_.io.grpc.ServiceDescriptor.newBuilder("${service.getFullName}")""")
+      .indent
+      .add(s".setSchemaDescriptor(new ConcreteProtoFileDescriptorSupplier(${service.getFile.fileDescriptorObjectFullName}.javaDescriptor))")
+      .print(service.methods) { case (printer, method) =>
+        printer.add(s".addMethod(${method.descriptorName})")
+      }
+      .add(".build()")
+      .outdent
 
   private[this] def serviceMethodSignature(method: MethodDescriptor) = {
     s"def ${method.name}" + (method.streamType match {
@@ -310,7 +320,7 @@ class GrpcMonixGenerator(override val params: GeneratorParams)
       .add(s"package ${fileDesc.scalaPackageName}")
       .newline
       .add("import _root_.com.google.protobuf.Descriptors.ServiceDescriptor")
-      .add("import _root_.com.trueaccord.scalapb.grpc.{ AbstractService, Marshaller, ServiceCompanion }")
+      .add("import _root_.com.trueaccord.scalapb.grpc.{ AbstractService, ConcreteProtoFileDescriptorSupplier, Marshaller, ServiceCompanion }")
       .add("import _root_.io.grpc.{ CallOptions, Channel, MethodDescriptor, ServerServiceDefinition }")
       .add("import _root_.grpcmonix.GrpcMonix._")
       .add("import _root_.io.grpc.stub.{ AbstractStub, ClientCalls, ServerCalls, StreamObserver }")
@@ -328,6 +338,8 @@ class GrpcMonixGenerator(override val params: GeneratorParams)
             .print(service.getMethods.asScala) {
               case (p, m) => p.call(serviceMethodDescriptor(m))
             }
+            .newline
+            .call(serviceDescriptor(service))
             .newline
             .call(serviceTrait(service))
             .newline
