@@ -1,5 +1,5 @@
 organization in ThisBuild := "beyondthelines"
-version in ThisBuild := "0.0.5-SNAPSHOT"
+version in ThisBuild := "0.0.5"
 bintrayOrganization in ThisBuild := Some(organization.value)
 bintrayRepository in ThisBuild := "maven"
 bintrayPackageLabels in ThisBuild := Seq("scala", "protobuf", "grpc", "monix")
