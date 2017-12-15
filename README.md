@@ -25,7 +25,7 @@ resolvers += Resolver.bintrayRepo("beyondthelines", "maven")
 
 libraryDependencies ++= Seq(
   "com.trueaccord.scalapb" %% "compilerplugin" % "0.6.7",
-  "beyondthelines"         %% "grpcmonixgenerator" % "0.0.5"
+  "beyondthelines"         %% "grpcmonixgenerator" % "0.0.6"
 )
 ```
 
@@ -43,7 +43,7 @@ PB.targets in Compile := Seq(
 
 resolvers += Resolver.bintrayRepo("beyondthelines", "maven")
 
-libraryDependencies += "beyondthelines" %% "grpcmonixruntime" % "0.0.5"
+libraryDependencies += "beyondthelines" %% "grpcmonixruntime" % "0.0.6"
 ```
 
 ### Usage
@@ -113,4 +113,3 @@ val notes: Observable[RouteNote] = Observable(
 ).delayOnNext(1.second)
 val allNotes = stub.routeChat(notes)
 ```
-
