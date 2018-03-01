@@ -3,11 +3,11 @@ package grpcmonix.generators
 import com.google.protobuf.Descriptors._
 import com.google.protobuf.ExtensionRegistry
 import com.google.protobuf.compiler.PluginProtos.{CodeGeneratorRequest, CodeGeneratorResponse}
-import com.trueaccord.scalapb.compiler.FunctionalPrinter.PrinterEndo
-import com.trueaccord.scalapb.compiler.{DescriptorPimps, FunctionalPrinter, GeneratorParams, ProtobufGenerator, StreamType}
+import scalapb.compiler.FunctionalPrinter.PrinterEndo
+import scalapb.compiler.{DescriptorPimps, FunctionalPrinter, GeneratorParams, ProtobufGenerator, StreamType}
+import scalapb.options.compiler.Scalapb
 
 import scala.collection.JavaConverters._
-import scalapbshade.v0_6_7.com.trueaccord.scalapb.Scalapb
 
 
 object GrpcMonixGenerator {
@@ -320,7 +320,7 @@ class GrpcMonixGenerator(override val params: GeneratorParams)
       .add(s"package ${fileDesc.scalaPackageName}")
       .newline
       .add("import _root_.com.google.protobuf.Descriptors.ServiceDescriptor")
-      .add("import _root_.com.trueaccord.scalapb.grpc.{ AbstractService, ConcreteProtoFileDescriptorSupplier, Marshaller, ServiceCompanion }")
+      .add("import _root_.scalapb.grpc.{ AbstractService, ConcreteProtoFileDescriptorSupplier, Marshaller, ServiceCompanion }")
       .add("import _root_.io.grpc.{ CallOptions, Channel, MethodDescriptor, ServerServiceDefinition }")
       .add("import _root_.grpcmonix.GrpcMonix._")
       .add("import _root_.io.grpc.stub.{ AbstractStub, ClientCalls, ServerCalls, StreamObserver }")

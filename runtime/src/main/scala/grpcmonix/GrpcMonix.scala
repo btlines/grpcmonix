@@ -1,7 +1,6 @@
 package grpcmonix
 
 import com.google.common.util.concurrent.ListenableFuture
-import com.trueaccord.scalapb.grpc.Grpc
 import io.grpc.stub.StreamObserver
 import monix.eval.{Callback, Task}
 import monix.execution.Ack.{Continue, Stop}
@@ -11,6 +10,7 @@ import monix.reactive.observables.ObservableLike.{Operator, Transformer}
 import monix.reactive.observers.Subscriber
 import monix.reactive.subjects.PublishSubject
 import org.reactivestreams.{Subscriber => SubscriberR}
+import scalapb.grpc.Grpc
 
 import scala.concurrent.Future
 
