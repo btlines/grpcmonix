@@ -1,7 +1,7 @@
 import scalapb.compiler.Version.scalapbVersion
 
 organization in ThisBuild := "beyondthelines"
-version in ThisBuild := "0.0.6"
+version in ThisBuild := "0.0.7"
 bintrayOrganization in ThisBuild := Some(organization.value)
 bintrayRepository in ThisBuild := "maven"
 bintrayPackageLabels in ThisBuild := Seq("scala", "protobuf", "grpc", "monix")
