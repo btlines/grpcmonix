@@ -1,3 +1,5 @@
+import scalapb.compiler.Version.scalapbVersion
+
 organization in ThisBuild := "beyondthelines"
 version in ThisBuild := "0.0.6"
 bintrayOrganization in ThisBuild := Some(organization.value)
@@ -12,8 +14,8 @@ lazy val runtime = (project in file("runtime"))
     crossScalaVersions := Seq("2.12.4", "2.11.11"),
     name := "GrpcMonixRuntime",
     libraryDependencies ++= Seq(
-      "com.trueaccord.scalapb" %% "scalapb-runtime-grpc" % "0.6.7",
-      "io.monix"               %% "monix"                % "2.3.0"
+      "com.thesamet.scalapb" %% "scalapb-runtime-grpc" % scalapbVersion,
+      "io.monix"             %% "monix"                % "2.3.3"
     )
   )
 
@@ -22,7 +24,8 @@ lazy val generator = (project in file("generator"))
     crossScalaVersions := Seq("2.12.4", "2.10.6"),
     name := "GrpcMonixGenerator",
     libraryDependencies ++= Seq(
-      "com.trueaccord.scalapb" %% "compilerplugin" % "0.6.7",
-      "com.trueaccord.scalapb" %% "scalapb-runtime-grpc" % "0.6.7"
+      "com.thesamet.scalapb" %% "compilerplugin"       % scalapbVersion,
+      "com.thesamet.scalapb" %% "scalapb-runtime-grpc" % scalapbVersion
     )
   )
+
