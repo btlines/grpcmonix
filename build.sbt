@@ -15,7 +15,7 @@ lazy val runtime = (project in file("runtime"))
     name := "GrpcMonixRuntime",
     libraryDependencies ++= Seq(
       "com.thesamet.scalapb" %% "scalapb-runtime-grpc" % scalapbVersion,
-      "io.monix"             %% "monix"                % "2.3.3"
+      "io.monix"             %% "monix"                % "3.0.0-RC1"
     )
   )
 
