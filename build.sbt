@@ -7,11 +7,11 @@ bintrayRepository in ThisBuild := "maven"
 bintrayPackageLabels in ThisBuild := Seq("scala", "protobuf", "grpc", "monix")
 licenses in ThisBuild := ("MIT", url("http://opensource.org/licenses/MIT")) :: Nil
 
-scalaVersion in ThisBuild := "2.12.4"
+scalaVersion in ThisBuild := "2.12.6"
 
 lazy val runtime = (project in file("runtime"))
   .settings(
-    crossScalaVersions := Seq("2.12.4", "2.11.11"),
+    crossScalaVersions := Seq("2.12.6", "2.11.11"),
     name := "GrpcMonixRuntime",
     libraryDependencies ++= Seq(
       "com.thesamet.scalapb" %% "scalapb-runtime-grpc" % scalapbVersion,
@@ -21,7 +21,7 @@ lazy val runtime = (project in file("runtime"))
 
 lazy val generator = (project in file("generator"))
   .settings(
-    crossScalaVersions := Seq("2.12.4", "2.10.6"),
+    crossScalaVersions := Seq("2.12.6", "2.10.6"),
     name := "GrpcMonixGenerator",
     libraryDependencies ++= Seq(
       "com.thesamet.scalapb" %% "compilerplugin"       % scalapbVersion,
