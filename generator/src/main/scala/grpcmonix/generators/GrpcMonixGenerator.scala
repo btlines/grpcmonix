@@ -4,7 +4,7 @@ import com.google.protobuf.Descriptors._
 import com.google.protobuf.ExtensionRegistry
 import com.google.protobuf.compiler.PluginProtos.{CodeGeneratorRequest, CodeGeneratorResponse}
 import scalapb.compiler.FunctionalPrinter.PrinterEndo
-import scalapb.compiler.{DescriptorPimps, FunctionalPrinter, GeneratorParams, ProtobufGenerator, StreamType}
+import scalapb.compiler.{DescriptorPimps, FunctionalPrinter, GeneratorParams, StreamType}
 import scalapb.options.compiler.Scalapb
 
 import scala.collection.JavaConverters._

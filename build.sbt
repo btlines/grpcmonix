@@ -1,7 +1,7 @@
 import scalapb.compiler.Version.scalapbVersion
 
 organization in ThisBuild := "beyondthelines"
-version in ThisBuild := "0.0.7"
+version in ThisBuild := "0.0.8"
 bintrayOrganization in ThisBuild := Some(organization.value)
 bintrayRepository in ThisBuild := "maven"
 bintrayPackageLabels in ThisBuild := Seq("scala", "protobuf", "grpc", "monix")
@@ -15,7 +15,7 @@ lazy val runtime = (project in file("runtime"))
     name := "GrpcMonixRuntime",
     libraryDependencies ++= Seq(
       "com.thesamet.scalapb" %% "scalapb-runtime-grpc" % scalapbVersion,
-      "io.monix"             %% "monix"                % "2.3.3"
+      "io.monix"             %% "monix"                % "3.1.0"
     )
   )
 
